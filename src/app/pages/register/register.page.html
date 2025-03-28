@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="medium">
+    <ion-title size="medium">New Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Contact Information</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input  type="Text" label="Name" labelPlacement="floating" placeholder="Enter Your Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  type="email" label="Email" labelPlacement="floating" placeholder="Enter Email Address"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  type="password" label="Password" labelPlacement="floating" placeholder="Enter a Password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  type="password" label="Confirm Password" labelPlacement="floating" placeholder="Confirm Password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input  type="tel" label="Phone Number" labelPlacement="floating" placeholder="Enter Your Phone Number"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+    <ion-button size="full" shape="round" >Create Account</ion-button>
+</ion-content>
