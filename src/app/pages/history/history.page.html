@@ -8,71 +8,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>Last Inspirational Quote</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item lines="none">
-        <ion-icon name="hourglass-outline" color="success" slot="start"></ion-icon>
-        <ion-label>
-          Daily Quote:
-          <p>03/29/2025</p>
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>
-          <p>Quote: "The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt</p>
-          <p>Notes: I do believe in the power of going after your dreams!</p>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>History quotes</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item lines="none">
-        <ion-icon name="archive-outline" color="secondary" slot="start"></ion-icon>
-        <ion-label>
-          Daily Quote:
-          <p>03/28/2025</p>
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>
-          <p>Quote: "The only limit to our realization of tomorrow will be our doubts of today." - Franklin D. Roosevelt</p>
-          <p>Notes: I will do my best to keep all doubts out of my mind for the entire day!</p>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>History quotes</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item lines="none">
-        <ion-icon name="checkmark-circle-outline" color="warning" slot="start"></ion-icon>
-        <ion-label>
-          Daily Quote:
-          <p>03/27/2025</p>
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>
-          <p>Quote: "The only person who can bring you down is yourself." - Unknown</p>
-          <p>Notes: This is probably the best quote and one to follow on a daily basis. I want to keep a positive attitude everyday!</p>
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-icon name="trophy" slot="start" color="success"></ion-icon>
-        <ion-label color="success">103 <span>Days signed in</span></ion-label>
-        
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+  <app-quote-notes-card [hasHeader]="true" status="added" quote="The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
+    createdAt="03/29/2025" notes="Notes: I do believe in the power of going after your dreams!"></app-quote-notes-card>
+  
+  <app-quote-notes-card [hasHeader]="true" status="history" quote="The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt"
+   createdAt=" 03/28/2025" notes="Notes: I will do my best to keep all doubts out of my mind for the entire day!"></app-quote-notes-card>
+  
+   <app-quote-notes-card [hasHeader]="true" status="checked" quote="The only person who can bring you down is yourself. - Unknown"
+   createdAt=" 03/28/2025" notes="This is probably the best quote and one to follow on a daily basis. I want to keep a positive attitude everyday!"></app-quote-notes-card>
+     
 </ion-content>

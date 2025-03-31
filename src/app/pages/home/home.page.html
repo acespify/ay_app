@@ -20,6 +20,15 @@
     </ion-item>
   </ion-list>
 
+  <app-quote-notes-card [hasHeader]="true" status="added" quote="The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
+    createdAt="03/29/2025" notes="Notes: I do believe in the power of going after your dreams!">
+    <ion-card-header header>
+      <ion-card-subtitle>Last Inspirational Quote</ion-card-subtitle>
+      <!--<ion-card-subtitle *ngIf="status == 'history'">History</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="status == 'checked'">Expiring</ion-card-subtitle> -->
+    </ion-card-header>
+    <ion-button color="light" fill="clear" size="full" footer>See All...</ion-button>
+  </app-quote-notes-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="success">
       <ion-icon name="add"></ion-icon>
