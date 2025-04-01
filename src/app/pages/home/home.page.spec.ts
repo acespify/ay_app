@@ -29,7 +29,7 @@ describe('HomePage', () => {
   it('should go to the new-note page when plus is clicked', () => {
     spyOn(router, 'navigate');
 
-    component.goToNewNotes();
+    component.NewNotes();
     
     expect(router.navigate).toHaveBeenCalledWith(['new-notes']);
   });
