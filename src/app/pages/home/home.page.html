@@ -27,10 +27,10 @@
       <!--<ion-card-subtitle *ngIf="status == 'history'">History</ion-card-subtitle>
       <ion-card-subtitle *ngIf="status == 'checked'">Expiring</ion-card-subtitle> -->
     </ion-card-header>
-    <ion-button color="light" fill="clear" size="full" footer>See All...</ion-button>
+    <ion-button color="light" fill="clear" size="full" footer (click)="goToHistory()">See All...</ion-button>
   </app-quote-notes-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success">
+    <ion-fab-button color="success" (click)="NewNotes()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

@@ -1,3 +1,11 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button title=""></ion-back-button>
+      <ion-label color="light">Add Account</ion-label>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content [fullscreen]="true">
   <div class="flex-center">
     <ion-card>
@@ -19,7 +27,7 @@
         <ion-item>
           <ion-input type="tel" label="Phone Number" labelPlacement="floating" placeholder="Phone"></ion-input>
         </ion-item>
-      <ion-button size="full">Create Account</ion-button>
+      <ion-button size="full" (click)="register()">Create Account</ion-button>
     </ion-card>
   </div>
 </ion-content>

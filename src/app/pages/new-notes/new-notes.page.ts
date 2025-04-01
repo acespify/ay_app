@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-notes',
@@ -8,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewNotesPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  AddNewNotes() {
+    this.router.navigate(['home']);
+  }
 }
