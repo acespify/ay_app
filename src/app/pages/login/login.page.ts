@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   form: FormGroup | any;
 
   constructor(private router: Router, private formBuilder: FormBuilder) { }
+  
   ngOnInit() {
     this.form = new LoginPageForm(this.formBuilder).createForm();
   }
