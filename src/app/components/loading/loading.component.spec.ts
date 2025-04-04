@@ -34,7 +34,7 @@ describe('LoadingComponent', () => {
     store.dispatch(hide());
     fixture.detectChanges();
 
-    expect(compiled.querySelected('.backdrop')).toBeNull();
+    expect(compiled.querySelector('.backdrop')).toBeNull();
   });
 
   it('should show the loading component when it is loading', () => {
@@ -43,7 +43,7 @@ describe('LoadingComponent', () => {
     store.dispatch(show());
     fixture.detectChanges();
 
-    expect(compiled.querySelected('.backdrop')).not.toBeNull();
+    expect(compiled.querySelector('.backdrop')).not.toBeNull();
   });
 
 });
