@@ -12,6 +12,7 @@ const reducer = createReducer( initialState,
             error: null,
             isRecoveredPassword: false,
             isRecoveringPassword: true
+           
         };
     }),
     on(recoverPasswordSuccess, currentState => {
@@ -20,6 +21,7 @@ const reducer = createReducer( initialState,
             error: null,
             isRecoveredPassword: true,
             isRecoveringPassword: false
+         
         };
     }),
     on(recoverPasswordFail, (currentState, action) => {
@@ -28,6 +30,7 @@ const reducer = createReducer( initialState,
             error: action.error,
             isRecoveredPassword: false,
             isRecoveringPassword: false
+          
         };
     }),
     on(login, currentState => {
@@ -36,6 +39,7 @@ const reducer = createReducer( initialState,
             error: null,
             isLoggedIn: false,
             isLoggingIn: true
+        
         }
     }),
     on(loginSuccess, currentState => {
@@ -43,6 +47,7 @@ const reducer = createReducer( initialState,
             ...currentState,
             isLoggedIn: true,
             isLoggingIn: false
+            
         }
     }),
     on(loginFail, (currentState, action) => {
@@ -51,6 +56,7 @@ const reducer = createReducer( initialState,
             error: action.error,
             isLoggedIn: false,
             isLoggingIn: false
+         
         }
     })
 

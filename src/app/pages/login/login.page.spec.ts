@@ -66,7 +66,7 @@ describe('LoginPage', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register']);
   })
 
-  it('should recover email/password on forgotten email/password', () => {
+  it('should recover email/password on forgotten email/password', async () => {
     // start page
     fixture.detectChanges();
     // user set valid email
@@ -75,25 +75,21 @@ describe('LoginPage', () => {
     page.querySelector("#recoverPasswordButton").click();
 
     // expect loginState.isRecoveringPassword is true
-    store.select('login').subscribe(loginState => {
-      expect(loginState.isRecoveringPassword).toBeTruthy();
-    })
-    store.select('loading').subscribe(loadingState => {
-      expect(loadingState.show).toBeTruthy();
-    })
+    const loginState = await store.select('login').pipe(take(1)).toPromise();
+    expect(loginState?.isRecoveringPassword).toBeTruthy();
+
+    const loadingState = await store.select('loading').pipe(take(1)).toPromise();
+    expect(loadingState?.show).toBeTruthy();
   })
 
-  it('should show loading when recovering password', (done) => {
+  it('should show loading when recovering password', async () => {
     // start page
     fixture.detectChanges();
     // change isRecoveringPassword to true
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: "any@email.com"}));
     // verify loadingState.show == true
-    store.select('loading').pipe(take(1)).subscribe(loadingState => {
-      expect(loadingState.show).toBeTruthy();
-      done(); // signal completion
-    })
-
+    const loadingState = await store.select('loading').pipe(take(1)).toPromise();
+    expect(loadingState?.show).toBeTruthy();
   })
 
   it('given user is recovering password, when success, then hide loading and show success message', () => {
@@ -101,12 +97,12 @@ describe('LoginPage', () => {
     // start page
     fixture.detectChanges();
     // set login state as recovering password
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: "any@email.com"}));
     // set login state as recovered password
     store.dispatch(recoverPasswordSuccess());
     // verify loadingState.show == false
     store.select('loading').subscribe(loadingState => {
-      expect(loadingState.show).toBeFalsy();
+      expect(loadingState?.show).toBeFalsy();
     })
     // verify message was shown
     expect(toastController.create).toHaveBeenCalledTimes(1);
@@ -117,12 +113,12 @@ describe('LoginPage', () => {
     // start page
     fixture.detectChanges();
     // recover password
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: "any@email.com"}));
     // recover password fail
     store.dispatch(recoverPasswordFail({error: "message"}));
     // expect loading not showing
     store.select('loading').subscribe(loadingState => {
-      expect(loadingState.show).toBeFalsy();
+      expect(loadingState?.show).toBeFalsy(); // was falsy
     })
     // verify error was shown
     expect(toastController.create).toHaveBeenCalledTimes(1);
@@ -147,20 +143,19 @@ describe('LoginPage', () => {
     })
   })
 
-  it('given user is loggin in, when success, then hide loading and send user to home page', () => {
+  it('given user is loggin in, when success, then hide loading and send user to home page', async () => {
     spyOn(router, 'navigate');
     
     // start page
     fixture.detectChanges();
-    store.dispatch(login());
+    store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
     store.dispatch(loginSuccess({user: new User()}));
     // expect loading is hidden
-    store.select('loading').subscribe(loadingState => {
-      expect(loadingState.show).toBeFalsy();
-    })
-    store.select('login').subscribe(loginState => {
-      expect(loginState.isLoggingIn).toBeFalsy();
-    })
+    const loadingState = await store.select('loading').pipe(take(1)).toPromise();
+    expect(loadingState?.show).toBeFalsy();
+
+    const loginState = await store.select('login').pipe(take(1)).toPromise();
+    expect(loginState?.isLoggingIn).toBeFalsy();
     // expect the home page is showing
     expect(router.navigate).toHaveBeenCalledWith(['home']);
   })
@@ -170,7 +165,7 @@ describe('LoginPage', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     // start page
      fixture.detectChanges();
-     store.dispatch(login());
+     store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
      store.dispatch(loginFail({error: {message: 'error message'}}));
      // set valid password
      
@@ -178,7 +173,7 @@ describe('LoginPage', () => {
      
     // expect loading is hidden
     store.select('loading').subscribe(loadingState => {
-      expect(loadingState.show).toBeFalsy();
+      expect(loadingState?.show).toBeFalsy();
     })
     // expect error message shown
     expect(toastController.create).toHaveBeenCalledTimes(1);

@@ -5,80 +5,74 @@ import { loginReducer } from "./login.reducers"
 import { LoginState } from "./LoginState"
 
 describe("Login store", () => {
-
+     const defaultLoginState: LoginState = {
+        ...AppInitialState.login,
+        error: null,
+        isLoggedIn: false,
+        isLoggingIn: false,
+        isRecoveredPassword: false,
+        isRecoveringPassword: false
+    }
+        
     it('recoverPassword', () => {
-        const initialState: LoginState = AppInitialState.login;
-        const newState = loginReducer(initialState, recoverPassword());
+        const newState = loginReducer(defaultLoginState, recoverPassword({email: "any@email.com"}));
         expect(newState).toEqual({
-            ...initialState,
-            error: null,
-            isRecoveredPassword: false,
+            ...defaultLoginState,
             isRecoveringPassword: true
-        })
-    })
+        });
+    });
 
     it('recoverPasswordSuccess', () => {
-        const initialState: LoginState = AppInitialState.login;
-        const newState = loginReducer(initialState, recoverPasswordSuccess());
+        const newState = loginReducer(defaultLoginState, recoverPasswordSuccess());
         expect(newState).toEqual({
-            ...initialState,
+            ...defaultLoginState,
             error: null,
             isRecoveredPassword: true,
-            isRecoveringPassword: false
         })
     })
 
     it('recoverPasswordFail', () => {
-        const initialState: LoginState = AppInitialState.login;
         const error = {error: 'error'};
-        const newState = loginReducer(initialState, recoverPasswordFail({error}));
+        const newState = loginReducer(defaultLoginState, recoverPasswordFail({error}));
         expect(newState).toEqual({
-            ...initialState,
+            ...defaultLoginState,
             error,
-            isRecoveredPassword: false,
             isRecoveringPassword: false
         })
     })
 
     it('login', () => {
-        const initialState: LoginState = AppInitialState.login;
-        const newState = loginReducer(initialState, login());
+        const newState = loginReducer(defaultLoginState, login({email: "valid@email.com", password: "anyPassword"}));
         expect(newState).toEqual({
-            ...initialState,
-            error: null,
-            isLoggedIn: false,
+            ...defaultLoginState,
             isLoggingIn: true
         })
     })
 
     it('loginSuccess', () => {
         const initialState: LoginState = {
-            ...AppInitialState.login,
+            ...defaultLoginState,
             isLoggingIn: true
         };
         const user = new User();
         user.id = "anyId";
         const newState = loginReducer(initialState, loginSuccess({user}));
         expect(newState).toEqual({
-            ...initialState,
-            isLoggedIn: true,
-            isLoggingIn: false
+            ...defaultLoginState,
+            isLoggedIn: true
         })
     })
 
     it('loginFail', () => {
         const initialState: LoginState = {
-            ...AppInitialState.login,
+            ...defaultLoginState,
             isLoggingIn: true
         };
         const error = {error: 'error'};
         const newState = loginReducer(initialState, loginFail({error}));
         expect(newState).toEqual({
-            ...initialState,
-            error,
-            isLoggedIn: false,
-            isLoggingIn: false
+            ...defaultLoginState,
+            error
         })
     })
-
 })
