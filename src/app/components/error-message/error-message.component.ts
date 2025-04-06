@@ -7,7 +7,7 @@ import { AbstractControl } from '@angular/forms';
   styleUrls: ['./error-message.component.scss'],
   standalone: false
 })
-export class ErrorMessageComponent  implements OnInit {
+export class ErrorMessageComponent implements OnInit {
 
   @Input() message!: string;
   @Input() field!: AbstractControl;
