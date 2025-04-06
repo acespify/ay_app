@@ -1,42 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user/User';
+import * as firebase from 'firebase/compat/app';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  
+  constructor(private auth: AngularFireAuth) { }
 
   recoverEmailPassword(email: string) : Observable<void> {
     return new Observable<void>(observer => {
-      setTimeout(() => {
-        if(email == "error@email.com"){
-          observer.error({message: "Email not found"});
-        }
+      this.auth.sendPasswordResetEmail(email).then(() => {
         observer.next();
         observer.complete();
-      }, 3000);
+      }).catch(error => {
+        observer.next(error);
+        observer.complete();
+      })
     })
   }
 
   login(email: string, password: string) : Observable<User> {
     return new Observable<User>(observer => {
-      const user = new User();
-         user.email = email;
-         user.id = "userId" ;
-      setTimeout(() => {
-        if (email ==='error@email.com'){
-          observer.error({message: 'User not found'});
-          observer.next(user); // was observer.next() but have and error because of no value in ()
-        }else{
-         
-         observer.next(user);
-         observer.complete()
-        }
-        ;
-      }, 3000);
+      this.auth.setPersistence(firebase.default.auth.Auth.Persistence.SESSION).then(() =>{
+        this.auth.signInWithEmailAndPassword(email, password)
+        .then((firebaseUser: firebase.default.auth.UserCredential) => {
+          observer.next({email, id: firebaseUser.user?.uid});
+          observer.complete();
+        }).catch((err) => {
+          observer.error(err);
+          observer.complete();
+        })
+      })
     })
   }
 }

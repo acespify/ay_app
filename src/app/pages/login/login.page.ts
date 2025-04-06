@@ -5,10 +5,10 @@ import { LoginPageForm } from './login.page.form';
 import { AppState } from 'src/store/AppState';
 import { Store } from '@ngrx/store';
 import { hide, show } from 'src/store/loading/loading.actions';
-import { login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from 'src/store/login/login.actions';
+import { login, recoverPassword } from 'src/store/login/login.actions';
 import { ToastController } from '@ionic/angular';
 import { LoginState } from 'src/store/login/LoginState';
-import { AuthService } from 'src/app/services/auth/auth.service';
+
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginPage implements OnInit, OnDestroy {
   loginStateSubscription: Subscription | undefined;
 
   constructor(private router: Router, private formBuilder: FormBuilder, private store: Store<AppState>,
-    private toastController: ToastController, private authService: AuthService) { }
+    private toastController: ToastController) { }
     
   
   ngOnInit() {
@@ -31,9 +31,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
     this.loginStateSubscription = this.store.select('login').subscribe(loginState => {
       this.onIsRecoveredPassword(loginState);
-      this.onIsRecoveringPassword(loginState);
+      //this.onIsRecoveringPassword(loginState);
       
-      this.onIsLoggingIn(loginState);
+      //this.onIsLoggingIn(loginState);
       this.onIsLoggedIn(loginState);
 
       this.onError(loginState);
@@ -60,7 +60,7 @@ export class LoginPage implements OnInit, OnDestroy {
       this.router.navigate(['home']);
     }
   }
-
+/* removing from here
   private onIsLoggingIn(loginState: LoginState){
     if(loginState.isLoggingIn){
       const email = this.form.get('email').value;
@@ -71,8 +71,7 @@ export class LoginPage implements OnInit, OnDestroy {
         this.store.dispatch(loginFail({error}));
       })
     }
-    
-  }
+  }*/
 
   private async onError(loginState: LoginState){
     if(loginState.error){
@@ -84,7 +83,7 @@ export class LoginPage implements OnInit, OnDestroy {
       toaster.present();
     }
   }
-
+/*
   private onIsRecoveringPassword(loginState: LoginState){
     if(loginState.isRecoveringPassword){
 
@@ -94,7 +93,7 @@ export class LoginPage implements OnInit, OnDestroy {
         this.store.dispatch(recoverPasswordFail({error}))
       });
     }
-  }
+  }*/
 
   private async onIsRecoveredPassword(loginState: LoginState){
     if(loginState.isRecoveredPassword){
@@ -109,10 +108,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   forgotEmailPassword(){
     this.store.dispatch(recoverPassword());
-
-    setTimeout(() => {
-      this.store.dispatch(hide())
-    }, 3000)
   }
 
   login() {
