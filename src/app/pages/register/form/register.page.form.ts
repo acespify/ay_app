@@ -23,7 +23,7 @@ export class RegisterPageForm {
         return form;
     }
 
-    getForm() : FormGroup {
+    public getForm() : FormGroup {
         return this.form;
     }
 }

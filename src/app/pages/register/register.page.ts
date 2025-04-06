@@ -20,7 +20,13 @@ export class RegisterPage implements OnInit {
   }
 
   register(){
-    this.router.navigate(['home'])
+    this.registerForm.getForm().markAllAsTouched();
+    if(this.registerForm && this.registerForm.getForm() && this.registerForm.getForm().valid){//(this.registerForm.getForm().valid){
+      this.router.navigate(['home'])
+    }else {
+      console.error('Register form is not valid or has not been initialized');
+  }
+    
   }
 
   private createForm() {

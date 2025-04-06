@@ -10,6 +10,8 @@ describe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let router: Router;
+  let formBuilder: FormBuilder;
+  let page: { querySelector: (arg0: string) => { (): any; new(): any; click: { (): void; new(): any; }; }; };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -25,8 +27,10 @@ describe('RegisterPage', () => {
 
     fixture = TestBed.createComponent(RegisterPage);
     router = TestBed.get(Router);
-
+    formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
+    page = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
   }));
 
   it('should create register form on page init', () => {
@@ -38,7 +42,26 @@ describe('RegisterPage', () => {
   it('should go to the home page on register', () => {
     spyOn(router, 'navigate');
 
-    component.register();
+    component.registerForm.getForm()?.get('name').setValue("anyName");
+    component.registerForm.getForm()?.get('email').setValue("any@email.com");
+    component.registerForm.getForm()?.get('password').setValue("anyPassword");
+    component.registerForm.getForm()?.get('repeatPassword').setValue("anyPassword");
+    component.registerForm.getForm()?.get('phone').setValue("anyPhone");
+
+    page.querySelector('ion-button').click();
+
+    
     expect(router.navigate).toHaveBeenCalledWith(['home']);
   });
+
+  it('should not be allowed to register with form invalid', () => {
+    fixture.detectChanges();
+
+    spyOn(router, 'navigate');
+
+    page.querySelector('ion-button').click();
+
+    expect(router.navigate).toHaveBeenCalledTimes(0);
+  })
+
 });
