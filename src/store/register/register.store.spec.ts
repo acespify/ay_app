@@ -1,4 +1,4 @@
-import { userRegister } from "src/app/model/UserRegister";
+import { UserRegister } from "src/app/model/UserRegister";
 import { AppInitialState } from "../AppInitialState"
 import { registerReducer } from "./register.reducer";
 import { register, registerFail, registerSuccess } from "./register.actions";
@@ -9,7 +9,7 @@ describe('Register store', () => {
         const initialState = {
             ...AppInitialState.register
         };
-        const newState = registerReducer(initialState, register({userRegister: new userRegister()}));
+        const newState = registerReducer(initialState, register({userRegister: new UserRegister()}));
         expect(newState).toEqual({
             ...initialState,
             error: null,
