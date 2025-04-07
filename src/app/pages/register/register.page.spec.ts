@@ -11,6 +11,7 @@ import { loadingReducer } from 'src/store/loading/loading.reducers';
 import { registerReducer } from 'src/store/register/register.reducer';
 import { UserRegister } from 'src/app/model/UserRegister';
 import { register, registerFail, registerSuccess } from 'src/store/register/register.actions';
+import { loginReducer } from 'src/store/login/login.reducers';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -31,6 +32,7 @@ describe('RegisterPage', () => {
         RegisterPageModule,
         StoreModule.forRoot([]),
         StoreModule.forFeature("loading", loadingReducer),
+        StoreModule.forFeature("login", loginReducer),
         StoreModule.forFeature("register", registerReducer)
       ],
       providers: [FormBuilder]
@@ -101,15 +103,16 @@ describe('RegisterPage', () => {
     })
   })
 
-  it('should go to home page when registration successful', () => {
+  it('should login when registration successful', () => {
     fixture.detectChanges();
 
-    spyOn(router, 'navigate');
 
     store.dispatch(register({userRegister: new UserRegister()}));
     store.dispatch(registerSuccess());
 
-    expect(router.navigate).toHaveBeenCalledWith(['home']);
+    store.select('login').subscribe(state => {
+      expect(state.isLoggingIn).toBeTruthy();
+    })
     
   })
 

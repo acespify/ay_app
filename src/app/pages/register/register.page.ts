@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegisterPageForm } from './form/register.page.form';
 import { FormBuilder } from '@angular/forms';
 import { AppState } from 'src/store/AppState';
@@ -8,6 +7,8 @@ import { register } from 'src/store/register/register.actions';
 import { RegisterState } from 'src/store/register/RegisterState';
 import { hide, show } from 'src/store/loading/loading.actions';
 import { ToastController } from '@ionic/angular';
+import { login } from 'src/store/login/login.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -15,16 +16,22 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
   standalone: false
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage implements OnInit, OnDestroy {
 
   registerForm: RegisterPageForm | any;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private store: Store<AppState>,
+  registerStateSubscription?: Subscription;
+
+  constructor( private formBuilder: FormBuilder, private store: Store<AppState>,
     private toastController: ToastController) { }
 
   ngOnInit() {
     this.createForm();
     this.watchRegisterState();
+  }
+
+  ngOnDestroy(): void {
+      this.registerStateSubscription?.unsubscribe();
   }
 
   register(){
@@ -42,20 +49,32 @@ export class RegisterPage implements OnInit {
   }
 
   private watchRegisterState() {
-    this.store.select('register').subscribe(state => {
+    this.registerStateSubscription = this.store.select('register').subscribe(state => {
       this.toggleLoading(state);
 
-      if(state.isRegistered)      {
-        this.router.navigate(['home']);
+      this.onRegistered(state);
+     
+      this.onError(state);
+    })
+  }
+
+  private onRegistered(state: RegisterState){
+     if(state.isRegistered)      {
+        this.store.dispatch(login({
+          email: this.registerForm.getForm().value.email,
+          password: this.registerForm.getForm().value.password
+        }));
       }
-      if(state.error){
+  }
+
+  private onError(state: RegisterState){
+    if(state.error){
         this.toastController.create({
           message: state.error.message,
           duration: 5000,
           header: 'Registration not completed'
         }).then(toast => toast.present());
       }
-    })
   }
 
   private toggleLoading(state: RegisterState){
