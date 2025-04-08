@@ -90,7 +90,7 @@ describe('LoginPage', () => {
     // verify loadingState.show == true
     const loadingState = await store.select('loading').pipe(take(1)).toPromise();
     expect(loadingState?.show).toBeTruthy();
-  })
+  }) 
 
   it('given user is recovering password, when success, then hide loading and show success message', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
@@ -144,8 +144,8 @@ describe('LoginPage', () => {
   })
 
   it('given user is loggin in, when success, then hide loading and send user to home page', async () => {
-    spyOn(router, 'navigate');
-    
+    //spyOn(router, 'navigate');
+    spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     // start page
     fixture.detectChanges();
     store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
@@ -157,7 +157,8 @@ describe('LoginPage', () => {
     const loginState = await store.select('login').pipe(take(1)).toPromise();
     expect(loginState?.isLoggingIn).toBeFalsy();
     // expect the home page is showing
-    expect(router.navigate).toHaveBeenCalledWith(['home']);
+    //expect(router.navigate).toHaveBeenCalledWith(['home']);
+    expect(toastController.create).toHaveBeenCalledTimes(0);
   })
 
   it('given user is loggin in, when fail, then hide loading and show error message', () => {

@@ -55,7 +55,7 @@ describe("Login store", () => {
             isLoggingIn: true
         };
         const user = new User();
-        user.id = "anyId";
+        user.userId = "anyId";
         const newState = loginReducer(initialState, loginSuccess({user}));
         expect(newState).toEqual({
             ...defaultLoginState,

@@ -14,9 +14,9 @@ export class QuoteNotesCardComponent  implements OnInit {
   @Input() hasHeader: boolean | undefined;
   @Input() hasFooter: boolean | undefined;
 
-  @Input() status: string | undefined;
+  @Input() status: 'added' | 'history' | 'checked' = 'added';
   @Input() quote: string | undefined;
-  @Input() createdAt: string | undefined;
+  @Input() createdAt: string = 'mm/dd/yyyy';
   @Input() notes: string | undefined;
   @Input() value: string | undefined;
 

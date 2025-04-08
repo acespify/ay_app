@@ -44,7 +44,10 @@ export class AuthService {
       this.auth.setPersistence(firebase.default.auth.Auth.Persistence.SESSION).then(() =>{
         this.auth.signInWithEmailAndPassword(email, password)
         .then((firebaseUser: firebase.default.auth.UserCredential) => {
-          observer.next({email, id: firebaseUser.user?.uid});
+          observer.next({
+            email, userId: firebaseUser.user?.uid,
+            
+          });
           observer.complete();
         }).catch((err) => {
           observer.error(err);

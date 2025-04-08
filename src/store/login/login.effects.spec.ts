@@ -15,7 +15,7 @@ describe('Login effects', () => {
     let actions$: Observable<Action>;
     let error = {error: 'error'};
     let user = new User();
-    user.id = "anyUserId";
+    user.userId = "anyUserId";
 
     let authServiceMock = {
         recoverEmailPassword: (email: string) => {
